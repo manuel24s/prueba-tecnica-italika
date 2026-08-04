@@ -1,0 +1,207 @@
+src/main/java
+
+controller
+    ProductController
+    AuthController
+
+service
+    ProductService
+    ProductServiceImpl
+
+repository
+    ProductRepository
+
+entity
+    Product
+
+dto
+    ProductRequest
+    ProductResponse
+    LoginRequest
+    JwtResponse
+
+security
+    SecurityConfig
+
+exception
+    GlobalExceptionHandler
+    BusinessException
+
+config
+
+util
+Base de datos
+
+Tabla
+
+PRODUCT
+
+id_producto
+nombre
+descripcion
+precio
+cantidad
+bloqueado
+
+El campo
+
+bloqueado
+
+es un boolean (0/1).
+
+Procedimientos almacenados
+Crear
+sp_crear_producto
+Consultar todos
+sp_obtener_productos
+Consultar por id
+sp_obtener_producto
+Actualizar
+sp_actualizar_producto
+
+Aquí validarías
+
+SI bloqueado = 1
+
+NO actualizar
+
+regresar mensaje
+Eliminar
+sp_eliminar_producto
+Endpoints
+Login
+POST
+
+/api/auth/login
+
+Devuelve
+
+JWT
+Crear
+POST
+
+/api/productos
+Consultar todos
+GET
+
+/api/productos
+Consultar por id
+GET
+
+/api/productos/{id}
+Actualizar
+PUT
+
+/api/productos/{id}
+
+Validación
+
+Producto bloqueado
+
+Respuesta
+
+409 CONFLICT
+
+"No es posible actualizar el producto porque se encuentra bloqueado."
+Eliminar
+DELETE
+
+/api/productos/{id}
+Seguridad
+
+Utilizar
+
+Spring Security
+
+más
+
+JWT
+
+Flujo
+
+Login
+
+↓
+
+Usuario y contraseña
+
+↓
+
+Generar Token
+
+↓
+
+Consumir endpoints
+
+↓
+
+Authorization
+
+Bearer eyJhbGci...
+
+Todos los endpoints protegidos excepto
+
+/login
+application.properties
+
+Ejemplo
+
+spring.datasource.url=jdbc:sqlserver://localhost:1433;databaseName=Italika
+spring.datasource.username=sa
+spring.datasource.password=**
+spring.datasource.driver-class-name=com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+spring.jpa.show-sql=true
+
+jwt.secret=xxxxxxxxxxxxxxxxxxxxxxxx
+jwt.expiration=3600000
+Flujo del Update
+Controller
+
+↓
+
+Service
+
+↓
+
+SP Actualizar
+
+↓
+
+¿Producto bloqueado?
+
+↓
+
+Sí
+
+↓
+
+BusinessException
+
+↓
+
+409
+
+No
+
+↓
+
+Actualizar
+Manejo de excepciones
+
+GlobalExceptionHandler
+
+404
+Producto no encontrado
+
+409
+Producto bloqueado
+
+500
+Error interno
+
+Nombre obligatorio
+
+Precio > 0
+
+Cantidad >= 0
